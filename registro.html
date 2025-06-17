@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Acme - Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="CSS/Js/validation.js"></script>
+</head>
+<body>
+
+    <div class="register-container">
+        <div class="bank-logo">
+            <i class="fas fa-university"></i>
+            <h1>Banco Acme</h1>
+        </div>
+        
+        <form id="registerForm" class="auth-form">
+            <h2>Registro de Nueva Cuenta</h2>
+            
+            <div class="two-columns">
+                <div class="form-group">
+                    <label for="regTipoIdentificacion">Tipo de Identificación*</label>
+                    <select id="regTipoIdentificacion" required>
+                        <option value="">Seleccione...</option>
+                        <option value="CC">Cédula de Ciudadanía</option>
+                        <option value="TI">Tarjeta de Identidad</option>
+                        <option value="CE">Cédula de Extranjería</option>
+                        <option value="PA">Pasaporte</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                <label for="numeroIdentificacion">Número de Identificación</label>
+                <input type="text" id="numeroIdentificacion" placeholder="Ingrese su número" onkeypress="return number(event)" required>
+            </div>
+            </div>
+            
+            <div class="two-columns">
+                <div class="form-group">
+                    <label for="regNombres">Nombres*</label>
+                    <input type="text" id="regNombres" placeholder="Ingrese sus nombres" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regApellidos">Apellidos*</label>
+                    <input type="text" id="regApellidos" placeholder="Ingrese sus apellidos" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="regGenero">Género*</label>
+                <select id="regGenero" required>
+                    <option value="">Seleccione...</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                    <option value="P">Prefiero no decir</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="regTelefono">Teléfono*</label>
+                <input type="tel" id="regTelefono" placeholder="Ingrese su teléfono" onkeypress="return number(event)" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="regEmail">Correo Electrónico*</label>
+                <input type="email" id="regEmail" placeholder="Ingrese su correo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="regDireccion">Dirección*</label>
+                <input type="text" id="regDireccion" placeholder="Ingrese su dirección" required>
+            </div>
+            
+            <div class="two-columns">
+                <div class="form-group">
+                    <label for="regCiudad">Ciudad*</label>
+                    <input type="text" id="regCiudad" placeholder="Ingrese su ciudad" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="regPassword">Contraseña*</label>
+                    <input type="password" id="regPassword" placeholder="Cree una contraseña" required>
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('regPassword')"></i>
+                </div>
+            </div>
+            
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="regTerms" required>
+                <label for="regTerms">Acepto los términos y condiciones del servicio</label>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+        </form>
+        
+        <div id="successMessage" class="success-message" style="display:none;">
+            <h3>¡Registro exitoso!</h3>
+            <p id="accountDetails"></p>
+            <a href="index.html" class="btn-primary">Ir al inicio de sesión</a>
+        </div>
+        
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/registro.js"></script>
+</body>
+</html>

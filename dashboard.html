@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Acme - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="user-profile">
+                <div class="avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info">
+                    <h3 id="userFullName">Nombre Usuario</h3>
+                    <p id="userAccountNumber">Cuenta: ********</p>
+                </div>
+            </div>
+            
+            <nav class="menu">
+                <ul>
+                    <li class="active"><a href="#" data-section="resumen"><i class="fas fa-home"></i> Resumen</a></li>
+                    <li><a href="#" data-section="transacciones"><i class="fas fa-list"></i> Transacciones</a></li>
+                    <li><a href="#" data-section="consignacion"><i class="fas fa-money-bill-wave"></i> Consignación</a></li>
+                    <li><a href="#" data-section="retiro"><i class="fas fa-hand-holding-usd"></i> Retiro</a></li>
+                    <li><a href="#" data-section="pagos"><i class="fas fa-file-invoice-dollar"></i> Pagos</a></li>
+                    <li><a href="#" data-section="extracto"><i class="fas fa-file-alt"></i> Extracto</a></li>
+                    <li><a href="#" data-section="certificado"><i class="fas fa-certificate"></i> Certificado</a></li>
+                    <li><a href="index.html"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="content-header">
+                <h2 id="sectionTitle">Resumen de Cuenta</h2>
+                <div class="current-date" id="currentDate"></div>
+            </header>
+            
+            <div class="content-section" id="resumenSection">
+                <div class="account-summary">
+                    <div class="account-card">
+                        <h3>Saldo Disponible</h3>
+                        <p class="balance" id="currentBalance">$0.00</p>
+                        <p class="account-number" id="mainAccountNumber">Cuenta: ********</p>
+                        <p class="account-date" id="accountCreationDate">Fecha creación: --/--/----</p>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <button class="quick-action" data-section="consignacion">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Consignar</span>
+                        </button>
+                        <button class="quick-action" data-section="retiro">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <span>Retirar</span>
+                        </button>
+                        <button class="quick-action" data-section="pagos">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Pagar</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="recent-transactions">
+                    <h3>Últimas Transacciones</h3>
+                    <div class="transactions-list" id="recentTransactionsList">
+                        <!-- Las transacciones se cargarán aquí -->
+                    </div>
+                    <a href="#" class="view-all" data-section="transacciones">Ver todas las transacciones</a>
+                </div>
+            </div>
+            
+            <div class="content-section" id="transaccionesSection" style="display:none;">
+                <div class="section-header">
+                    <h3>Historial de Transacciones</h3>
+                    <button class="btn-secondary" onclick="printTransactions()">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                </div>
+                
+                <div class="transactions-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Referencia</th>
+                                <th>Tipo</th>
+                                <th>Descripción</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="allTransactionsList">
+                            <!-- Todas las transacciones se cargarán aquí -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="content-section" id="consignacionSection" style="display:none;">
+                <form id="depositForm">
+                    <h3>Consignación Electrónica</h3>
+                    
+                    <div class="form-group">
+                        <label>Número de Cuenta</label>
+                        <p class="form-control-static" id="depositAccountNumber">********</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Titular de la Cuenta</label>
+                        <p class="form-control-static" id="depositAccountHolder">Nombre del Titular</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="depositAmount">Cantidad a Consignar*</label>
+                        <input type="number" id="depositAmount" placeholder="Ingrese el valor" min="1000" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" data-section="resumen">Cancelar</button>
+                        <button type="submit" class="btn-primary">Realizar Consignación</button>
+                    </div>
+                </form>
+                
+                <div id="depositReceipt" class="receipt" style="display:none;">
+                    <h3>Comprobante de Consignación</h3>
+                    <div class="receipt-content" id="depositReceiptContent">
+                        <!-- El comprobante se generará aquí -->
+                    </div>
+                    <div class="receipt-actions">
+                        <button class="btn-secondary" onclick="printReceipt('depositReceiptContent')">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
+                        <button class="btn-primary" data-section="resumen">Volver al inicio</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-section" id="retiroSection" style="display:none;">
+                <form id="withdrawalForm">
+                    <h3>Retiro de Dinero</h3>
+                    
+                    <div class="form-group">
+                        <label>Número de Cuenta</label>
+                        <p class="form-control-static" id="withdrawalAccountNumber">********</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Titular de la Cuenta</label>
+                        <p class="form-control-static" id="withdrawalAccountHolder">Nombre del Titular</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="withdrawalAmount">Cantidad a Retirar*</label>
+                        <input type="number" id="withdrawalAmount" placeholder="Ingrese el valor" min="1000" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" data-section="resumen">Cancelar</button>
+                        <button type="submit" class="btn-primary">Realizar Retiro</button>
+                    </div>
+                </form>
+                
+                <div id="withdrawalReceipt" class="receipt" style="display:none;">
+                    <h3>Comprobante de Retiro</h3>
+                    <div class="receipt-content" id="withdrawalReceiptContent">
+                        <!-- El comprobante se generará aquí -->
+                    </div>
+                    <div class="receipt-actions">
+                        <button class="btn-secondary" onclick="printReceipt('withdrawalReceiptContent')">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
+                        <button class="btn-primary" data-section="resumen">Volver al inicio</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-section" id="pagosSection" style="display:none;">
+                <form id="paymentForm">
+                    <h3>Pago de Servicios Públicos</h3>
+                    
+                    <div class="form-group">
+                        <label>Número de Cuenta</label>
+                        <p class="form-control-static" id="paymentAccountNumber">********</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Titular de la Cuenta</label>
+                        <p class="form-control-static" id="paymentAccountHolder">Nombre del Titular</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="serviceType">Servicio a Pagar*</label>
+                        <select id="serviceType" required>
+                            <option value="">Seleccione un servicio</option>
+                            <option value="ENERGIA">Energía</option>
+                            <option value="AGUA">Agua</option>
+                            <option value="GAS">Gas Natural</option>
+                            <option value="INTERNET">Internet</option>
+                            <option value="TELEFONO">Teléfono</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="serviceReference">Número de Referencia*</label>
+                        <input type="text" id="serviceReference" placeholder="Ingrese número de referencia" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paymentAmount">Valor a Pagar*</label>
+                        <input type="number" id="paymentAmount" placeholder="Ingrese el valor" min="1000" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" data-section="resumen">Cancelar</button>
+                        <button type="submit" class="btn-primary">Realizar Pago</button>
+                    </div>
+                </form>
+                
+                <div id="paymentReceipt" class="receipt" style="display:none;">
+                    <h3>Comprobante de Pago</h3>
+                    <div class="receipt-content" id="paymentReceiptContent">
+                        <!-- El comprobante se generará aquí -->
+                    </div>
+                    <div class="receipt-actions">
+                        <button class="btn-secondary" onclick="printReceipt('paymentReceiptContent')">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
+                        <button class="btn-primary" data-section="resumen">Volver al inicio</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-section" id="extractoSection" style="display:none;">
+                <form id="statementForm">
+                    <h3>Extracto Bancario</h3>
+                    
+                    <div class="form-group">
+                        <label>Número de Cuenta</label>
+                        <p class="form-control-static" id="statementAccountNumber">********</p>
+                    </div>
+                    
+                    <div class="two-columns">
+                        <div class="form-group">
+                            <label for="statementYear">Año*</label>
+                            <select id="statementYear" required>
+                                <!-- Los años se cargarán dinámicamente -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="statementMonth">Mes*</label>
+                            <select id="statementMonth" required>
+                                <option value="">Seleccione...</option>
+                                <option value="01">Enero</option>
+                                <option value="02">Febrero</option>
+                                <option value="03">Marzo</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Mayo</option>
+                                <option value="06">Junio</option>
+                                <option value="07">Julio</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Septiembre</option>
+                                <option value="10">Octubre</option>
+                                <option value="11">Noviembre</option>
+                                <option value="12">Diciembre</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Generar Extracto</button>
+                    </div>
+                </form>
+                
+                <div id="statementResults" style="display:none;">
+                    <div class="section-header">
+                        <h3>Resultados del Extracto</h3>
+                        <button class="btn-secondary" onclick="printStatement()">
+                            <i class="fas fa-print"></i> Imprimir
+                        </button>
+                    </div>
+                    
+                    <div class="statement-summary">
+                        <p>Período: <span id="statementPeriod"></span></p>
+                        <p>Saldo Inicial: <span id="initialBalance"></span></p>
+                        <p>Saldo Final: <span id="finalBalance"></span></p>
+                    </div>
+                    
+                    <div class="transactions-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Referencia</th>
+                                    <th>Tipo</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statementTransactionsList">
+                                <!-- Las transacciones del extracto se cargarán aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-section" id="certificadoSection" style="display:none;">
+                <div class="bank-certificate">
+                    <div class="certificate-header">
+                        <div class="bank-logo">
+                            <i class="fas fa-university"></i>
+                            <h2>Banco Acme</h2>
+                        </div>
+                        <h1>Certificado Bancario</h1>
+                    </div>
+                    
+                    <div class="certificate-body">
+                        <p>El Banco Acme certifica que:</p>
+                        
+                        <div class="certificate-user">
+                            <h3 id="certificateUserName">Nombre del Usuario</h3>
+                            <p>Identificado con <span id="certificateUserDocType">Cédula de Ciudadanía</span> No. <span id="certificateUserDocNumber">********</span></p>
+                        </div>
+                        
+                        <p>Es titular de la cuenta de ahorros No. <strong id="certificateAccountNumber">********</strong>, la cual fue aperturada el día <strong id="certificateAccountDate">--/--/----</strong> y se encuentra activa a la fecha de emisión del presente certificado.</p>
+                        
+                        <div class="certificate-signature">
+                            <p>Fecha de emisión: <span id="certificateIssueDate">--/--/----</span></p>
+                            <div class="signature-line"></div>
+                            <p>Firma Autorizada</p>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-footer">
+                        <p>Este es un documento generado electrónicamente y no requiere firma manuscrita.</p>
+                    </div>
+                </div>
+                
+                <div class="certificate-actions">
+                    <button class="btn-secondary" onclick="printCertificate()">
+                        <i class="fas fa-print"></i> Imprimir Certificado
+                    </button>
+                    <button class="btn-primary" data-section="resumen">Volver al inicio</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/transacciones.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
